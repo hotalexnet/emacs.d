@@ -1,129 +1,28 @@
 # Alex's Emacs Configuration
 
-Personal Emacs configuration for GNU/Linux, focused on Org mode, LSP, mail,
-music, RSS, PDF reading, and AI-assisted coding. The main configuration lives
-in `init.el`; startup optimizations live in `early-init.el`; private machine
-settings should be kept in `local.el`, which is ignored by Git.
+[中文说明](README.zh-CN.md)
 
-## English Quick Start
+Personal Emacs configuration for GNU/Linux, mainly targeting Arch Linux. The main configuration lives in `init.el`; startup optimizations live in `early-init.el`; private machine settings live in `local.el`, which is ignored by Git.
 
-Clone this repository with submodules:
-
-```sh
-git clone --recurse-submodules <your-repo-url> ~/.emacs.d
-```
-
-If you cloned without submodules:
-
-```sh
-git submodule update --init --recursive
-```
-
-Create your private local configuration:
-
-```sh
-cp ~/.emacs.d/local.example.el ~/.emacs.d/local.el
-```
-
-Then edit `local.el` for your email address, full name, and optional API keys.
-Do not commit the real `local.el`.
-
-Recommended Emacs version: Emacs 30 or newer. This config prefers built-in
-tree-sitter major modes such as `rust-ts-mode`, `go-ts-mode`,
-`typescript-ts-mode`, `tsx-ts-mode`, `lua-ts-mode`, `yaml-ts-mode`, and
-`dockerfile-ts-mode`.
-
-### English Dependency Notes
-
-Emacs packages are installed automatically through `package.el` and
-`use-package`. System programs still need to be installed separately.
-
-Common Arch Linux dependencies:
-
-```sh
-sudo pacman -S ripgrep fd git aspell aspell-en w3m
-sudo pacman -S clang lua-language-server typescript-language-server yaml-language-server dockerfile-language-server
-sudo pacman -S plantuml graphviz
-sudo pacman -S poppler-glib base-devel
-sudo pacman -S mpv yt-dlp
-sudo pacman -S mu isync msmtp w3m
-sudo pacman -S cmake libvterm
-```
-
-Optional language servers and tools:
-
-```sh
-go install github.com/sqls-server/sqls@latest
-go install golang.org/x/tools/gopls@latest
-rustup component add rust-analyzer
-sudo pacman -S pyright
-composer global require phpactor/phpactor
-npm install -g marked
-pipx install aider-chat
-```
-
-External tools expected by this configuration include:
-
-- `clangd` at `/usr/bin/clangd`
-- `lua-language-server` under `/usr/lib/lua-language-server/`
-- `sqls` at `~/go/bin/sqls`
-- `plantuml` at `/usr/bin/plantuml`
-- `aider` at `~/.local/bin/aider`
-- `mpv` and `yt-dlp` for media workflows
-- `mu`, `mbsync`, `msmtp`, and `w3m` for `mu4e`
-
-Private files and generated state are intentionally ignored, including
-`local.el`, `custom.el`, `elpa/`, caches, `recentf`, `org-roam.db`, and native
-compiled tree-sitter grammars.
-
-### English Key Bindings
-
-```text
-F2      Toggle neotree
-C-x g   Magit status
-C-c o a Org Agenda
-C-c l   Store Org link
-C-c n f Find Org-roam node
-C-c n i Insert Org-roam node
-C-c n l Toggle Org-roam buffer
-C-c n c Org-roam capture
-C-c n d Capture today's Org-roam daily
-C-c w   Elfeed
-C-c y   Yeetube search
-C-c a   Aidermacs
-C-c t   vterm
-C-c e   Open init.el
-C-c r   Save and reload init.el
-F11     writeroom-mode
-F6      EMMS pause/resume
-C-F6    EMMS stop
-C-`     EMMS next track
-C-'     EMMS previous track
-```
-
----
-
-这是我的个人 Emacs 配置，主要面向 Arch Linux / GNU Linux 桌面环境。配置集中在 `init.el`，启动优化在 `early-init.el`，本机私有信息放在不会提交的 `local.el`。
-
-## 目录结构
+## Directory Layout
 
 ```text
 ~/.emacs.d/
-├── init.el              # 主配置
-├── early-init.el        # 启动阶段优化
-├── lisp/                # 本地扩展，例如 emms-spectrum.el
-├── dict/                # 本地词典文件
-├── emacs-chess-cn/      # 中国象棋扩展
-├── .gitignore           # 忽略缓存、数据库、私有配置和编译产物
-├── local.example.el     # 私有配置模板
-└── local.el             # 本机私有配置，不提交
+├── init.el              # Main configuration
+├── early-init.el        # Startup optimizations
+├── lisp/                # Local extensions, such as emms-spectrum.el
+├── dict/                # Local dictionary files
+├── emacs-chess-cn/      # Chinese chess extension, tracked as a submodule
+├── .gitignore           # Ignores caches, databases, private files, and build outputs
+├── local.example.el     # Template for private local settings
+└── local.el             # Private local settings, not committed
 ```
 
-## Emacs 版本
+## Emacs Version
 
-建议使用 Emacs 30 或更新版本。
+Emacs 30 or newer is recommended.
 
-原因是配置里优先使用了 Emacs 30 内置的 tree-sitter major modes，例如：
+This configuration prefers built-in tree-sitter major modes, including:
 
 - `rust-ts-mode`
 - `go-ts-mode`
@@ -133,38 +32,38 @@ C-'     EMMS previous track
 - `yaml-ts-mode`
 - `dockerfile-ts-mode`
 
-如果使用较老版本 Emacs，需要自己调整这些 mode 映射。
+If you use an older Emacs version, adjust these mode mappings yourself.
 
-## 首次安装
+## First Install
 
-克隆到 Emacs 配置目录：
+Clone this repository into the Emacs configuration directory:
 
 ```sh
 git clone --recurse-submodules <your-repo-url> ~/.emacs.d
 ```
 
-如果已经普通克隆，补拉子模块：
+If you already cloned without submodules, initialize them afterwards:
 
 ```sh
 git submodule update --init --recursive
 ```
 
-首次启动 Emacs 时，配置会自动：
+On first startup, Emacs will automatically:
 
-1. 初始化 `package.el`
-2. 使用清华 ELPA 镜像
-3. 自动安装 `use-package`
-4. 通过 `use-package-always-ensure` 自动安装缺失的 Emacs 包
+1. Initialize `package.el`
+2. Use the Tsinghua ELPA mirrors
+3. Install `use-package` if missing
+4. Install missing Emacs packages through `use-package-always-ensure`
 
-如果第一次启动时包安装失败，通常是网络或 ELPA 镜像访问问题。可以重新启动 Emacs，或手动执行：
+If package installation fails on first startup, it is usually a network or mirror access issue. Restart Emacs or run:
 
 ```elisp
 M-x package-refresh-contents
 ```
 
-## Emacs 包依赖
+## Emacs Package Dependencies
 
-这些包由 `use-package` 自动安装：
+These packages are installed automatically through `use-package`:
 
 ```text
 git-modes
@@ -204,49 +103,49 @@ magit
 writeroom-mode
 ```
 
-`org` 和 `mu4e` 不通过 ELPA 自动安装：
+`org` and `mu4e` are not installed from ELPA:
 
-- `org` 使用 Emacs 自带版本
-- `mu4e` 来自系统里的 `mu` 邮件工具
+- `org` uses the version bundled with Emacs
+- `mu4e` comes from the system `mu` mail package
 
-## 系统依赖
+## System Dependencies
 
-下面这些不是 Emacs 包，需要系统安装。不同发行版包名可能略有区别。
+The following are external system programs, not Emacs packages. Package names may vary across distributions.
 
-### 基础工具
+### Basic Tools
 
 ```sh
 sudo pacman -S ripgrep fd git aspell aspell-en w3m
 ```
 
-用途：
+Usage:
 
-- `ripgrep`：`consult-ripgrep` 搜索项目
-- `aspell` / `aspell-en`：Org 和 Markdown 拼写检查
-- `w3m`：mu4e HTML 邮件转文本
+- `ripgrep`: project search via `consult-ripgrep`
+- `aspell` / `aspell-en`: spell checking in Org and Markdown
+- `w3m`: HTML-to-text conversion for `mu4e`
 
-### LSP 和编程语言支持
+### LSP And Programming Language Support
 
 ```sh
 sudo pacman -S clang lua-language-server typescript-language-server yaml-language-server dockerfile-language-server
 ```
 
-配置中显式使用：
+The configuration explicitly uses:
 
 ```text
 /usr/bin/clangd
 /usr/lib/lua-language-server/
 ```
 
-SQL LSP 使用 Go 安装的 `sqls`：
+SQL LSP uses `sqls`, installed through Go:
 
 ```sh
 go install github.com/sqls-server/sqls@latest
 ```
 
-安装后需要确保 `~/go/bin/sqls` 存在。
+After installation, make sure `~/go/bin/sqls` exists.
 
-常用语言服务器建议按需安装：
+Common optional language servers:
 
 ```sh
 # Python
@@ -262,9 +161,9 @@ go install golang.org/x/tools/gopls@latest
 composer global require phpactor/phpactor
 ```
 
-### Tree-sitter grammars
+### Tree-sitter Grammars
 
-配置会优先使用 Emacs 内置的 `*-ts-mode`，但 grammar 仍需要存在。当前本机使用的是：
+The configuration prefers Emacs built-in `*-ts-mode`, but grammar libraries still need to exist. This machine currently uses:
 
 ```text
 ~/.emacs.d/tree-sitter/libtree-sitter-typescript.so
@@ -275,11 +174,11 @@ composer global require phpactor/phpactor
 ~/.emacs.d/tree-sitter/libtree-sitter-dockerfile.so
 ```
 
-这些 `.so` 文件是本机编译产物，不提交到 Git。新机器上需要重新安装或编译 grammar。
+These `.so` files are local build outputs and are not committed. Reinstall or rebuild grammars on a new machine.
 
 ### Org / PlantUML
 
-Org Babel 启用了这些语言：
+Org Babel enables these languages:
 
 ```text
 python
@@ -293,21 +192,21 @@ dot
 plantuml
 ```
 
-PlantUML 需要系统命令：
+PlantUML requires external tools:
 
 ```sh
 sudo pacman -S plantuml graphviz
 ```
 
-配置里使用：
+The configuration uses:
 
 ```text
 /usr/bin/plantuml
 ```
 
-### Markdown 预览
+### Markdown Preview
 
-如果安装了 `marked`，`markdown-mode` 会用它渲染 Markdown：
+If `marked` is installed, `markdown-mode` uses it to render Markdown:
 
 ```sh
 npm install -g marked
@@ -315,37 +214,37 @@ npm install -g marked
 
 ### PDF
 
-`pdf-tools` 首次安装可能需要编译依赖。Arch Linux 通常需要：
+`pdf-tools` may need build dependencies on first install. On Arch Linux:
 
 ```sh
 sudo pacman -S poppler-glib base-devel
 ```
 
-### 视频和音乐
+### Video And Music
 
-`yeetube` 和 `emms` 需要外部播放器/下载器：
+`yeetube` and `emms` need external media tools:
 
 ```sh
 sudo pacman -S mpv yt-dlp
 ```
 
-EMMS 默认音乐目录是：
+The default EMMS music directory is:
 
 ```text
 ~/songs/
 ```
 
-可以在 `init.el` 里修改 `emms-source-directory-tree-root`。
+Change `emms-source-directory-tree-root` in `init.el` if needed.
 
-### 邮件 mu4e
+### Mail / mu4e
 
-邮件功能依赖：
+Mail support depends on:
 
 ```sh
 sudo pacman -S mu isync msmtp w3m
 ```
 
-配置默认：
+Defaults used by this configuration:
 
 ```text
 mu4e-maildir: ~/Mail/qq
@@ -353,18 +252,18 @@ mbsync account: qq
 sendmail: /usr/bin/msmtp
 ```
 
-还需要你自己配置：
+You still need to configure:
 
 ```text
 ~/.mbsyncrc
 ~/.msmtprc
 ```
 
-这些文件通常包含账号或认证信息，不应提交到 Git。
+These files usually contain account or authentication data and should not be committed.
 
 ### vterm
 
-`vterm` 需要编译模块：
+`vterm` needs native module build dependencies:
 
 ```sh
 sudo pacman -S cmake libvterm
@@ -372,31 +271,31 @@ sudo pacman -S cmake libvterm
 
 ### Aider / Aidermacs
 
-配置中使用：
+This configuration expects:
 
 ```text
 ~/.local/bin/aider
 ```
 
-可以用 pipx 安装：
+Install it with pipx:
 
 ```sh
 pipx install aider-chat
 ```
 
-或按你的 Python 环境自行安装，只要保证 `~/.local/bin/aider` 可执行。
+Or install it through your preferred Python environment, as long as `~/.local/bin/aider` is executable.
 
-## 私有配置 local.el
+## Private Configuration: local.el
 
-`local.el` 用来存放不适合公开提交的信息，例如邮箱、姓名、API key。它已被 `.gitignore` 忽略。
+`local.el` stores information that should not be committed, such as email address, full name, and API keys. It is ignored by `.gitignore`.
 
-从模板复制：
+Copy the template:
 
 ```sh
 cp ~/.emacs.d/local.example.el ~/.emacs.d/local.el
 ```
 
-然后编辑 `local.el`。模板内容：
+Then edit `local.el`. Template content:
 
 ```elisp
 ;;; local.el --- Private local Emacs settings -*- lexical-binding: t; -*-
@@ -407,53 +306,53 @@ cp ~/.emacs.d/local.example.el ~/.emacs.d/local.el
 (setenv "DEEPSEEK_API_KEY" "your-api-key")
 ```
 
-不要把真实的 `local.el` 上传到公开仓库。
+Do not upload your real `local.el` to a public repository.
 
-## 常用快捷键
+## Key Bindings
 
 ```text
-F2      neotree 文件树
-C-x g   Magit
+F2      Toggle neotree
+C-x g   Magit status
 C-c o a Org Agenda
-C-c l   org-store-link
-C-c n f org-roam-node-find
-C-c n i org-roam-node-insert
-C-c n l org-roam-buffer-toggle
-C-c n c org-roam-capture
-C-c n d org-roam-dailies-capture-today
-C-c w   elfeed
-C-c y   yeetube-search
-C-c a   aidermacs
+C-c l   Store Org link
+C-c n f Find Org-roam node
+C-c n i Insert Org-roam node
+C-c n l Toggle Org-roam buffer
+C-c n c Org-roam capture
+C-c n d Capture today's Org-roam daily
+C-c w   Elfeed
+C-c y   Yeetube search
+C-c a   Aidermacs
 C-c t   vterm
-C-c e   打开 init.el
-C-c r   保存并重新加载 init.el
+C-c e   Open init.el
+C-c r   Save and reload init.el
 F11     writeroom-mode
-F6      EMMS 暂停/继续
-C-F6    EMMS 停止
-C-`     EMMS 下一首
-C-'     EMMS 上一首
+F6      EMMS pause/resume
+C-F6    EMMS stop
+C-`     EMMS next track
+C-'     EMMS previous track
 ```
 
-## Org 配置说明
+## Org Configuration
 
-Org 相关增强包括：
+Org enhancements include:
 
-- `org-bullets`：替换标题星号
-- `org-modern`：美化 TODO、标签、优先级和部分 Org 元素
-- `org-roam`：双链笔记
-- `org-journal`：日记
-- `org-hide-emphasis-markers`：隐藏粗体、斜体、代码等标记符号
-- `org-startup-indented`：视觉缩进
-- `org-ellipsis`：折叠提示符显示为 `⤵`
-- `org-src-fontify-natively`：代码块原生高亮
+- `org-bullets`: replaces headline stars
+- `org-modern`: improves TODO keywords, tags, priorities, and other Org elements
+- `org-roam`: linked notes
+- `org-journal`: journal files
+- `org-hide-emphasis-markers`: hides markup characters for bold, italic, code, and similar text
+- `org-startup-indented`: visual indentation
+- `org-ellipsis`: folded headings show `⤵`
+- `org-src-fontify-natively`: native syntax highlighting in source blocks
 
-默认 Org 目录：
+Default Org directory:
 
 ```text
 ~/org/
 ```
 
-Agenda 文件：
+Agenda files:
 
 ```text
 ~/org/tasks.org
@@ -461,18 +360,19 @@ Agenda 文件：
 ~/org/journal.org
 ```
 
-Org-roam 目录：
+Org-roam directory:
 
 ```text
 ~/org/roam/
 ```
 
-## 不提交的文件
+## Ignored Files
 
-`.gitignore` 会忽略：
+`.gitignore` ignores:
 
 ```text
 local.el
+custom.el
 elpa/
 eln-cache/
 .cache/
@@ -491,20 +391,20 @@ tree-sitter/*.so
 init.el.bak-*
 ```
 
-这些都是本机缓存、数据库、历史记录、私有配置或编译产物，不适合提交。
+These are local caches, databases, histories, private settings, or build outputs and should not be committed.
 
-## 新机器恢复 checklist
+## New Machine Restore Checklist
 
-1. 安装 Emacs 30+
-2. 克隆仓库到 `~/.emacs.d`
-3. 安装基础系统依赖
-4. 创建 `~/.emacs.d/local.el`
-5. 如需邮件，配置 `~/.mbsyncrc` 和 `~/.msmtprc`
-6. 如需 LSP，安装对应语言服务器
-7. 如需 tree-sitter，安装或编译 grammar
-8. 启动 Emacs，让 `use-package` 自动安装 Emacs 包
-9. 如果 `pdf-tools` 或 `vterm` 编译失败，补齐系统编译依赖后重启 Emacs
+1. Install Emacs 30+
+2. Clone this repository to `~/.emacs.d`
+3. Install basic system dependencies
+4. Create `~/.emacs.d/local.el`
+5. Configure `~/.mbsyncrc` and `~/.msmtprc` if mail is needed
+6. Install language servers if LSP is needed
+7. Install or build tree-sitter grammars if needed
+8. Start Emacs and let `use-package` install Emacs packages
+9. If `pdf-tools` or `vterm` fails to build, install the missing native build dependencies and restart Emacs
 
-## 备注
+## Notes
 
-这份配置偏个人工作流，不是通用发行版。公开仓库里保留了可复现的核心配置，机器相关的缓存、数据库、账号和密钥都应留在本机。
+This is a personal workflow configuration, not a general-purpose Emacs distribution. The repository keeps reproducible configuration files public, while machine-local caches, databases, accounts, and secrets stay local.
