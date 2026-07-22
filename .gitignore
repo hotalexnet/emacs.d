@@ -1,0 +1,36 @@
+# Local/private settings
+local.el
+custom.el
+.aider*
+
+# Emacs generated state
+auto-save-list/
+var/
+.cache/
+eln-cache/
+elpa/
+transient/
+recentf
+.lsp-session-v1
+lsp-cache/
+network-security.data
+org-roam.db
+elfeed/
+emms/cache
+emms/history
+emms/scores
+games/*-scores
+
+# Native/tree-sitter compiled artifacts
+tree-sitter/*.so
+
+# Backups and temporary files
+*~
+\#*\#
+.#*
+*.elc
+
+# Optional local package/cache dirs
+straight/
+quelpa/
+init.el.bak-*

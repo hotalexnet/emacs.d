@@ -1,0 +1,3 @@
+[submodule "emacs-chess-cn"]
+	path = emacs-chess-cn
+	url = https://github.com/zhcosin/emacs-chess-cn.git
