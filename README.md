@@ -1,8 +1,17 @@
 # Alex's Emacs Configuration
 
-[中文说明](README.zh-CN.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Runtime: Emacs 30+](https://img.shields.io/badge/runtime-Emacs%2030%2B-blue.svg)](https://www.gnu.org/software/emacs/)
+[![State: Dotfiles](https://img.shields.io/badge/state-dotfiles-2ea44f.svg)](#what-it-does)
+**English** | [**中文**](./README.zh-CN.md)
 
 Personal Emacs configuration for GNU/Linux, mainly targeting Arch Linux. The main configuration lives in `init.el`; startup optimizations live in `early-init.el`; private machine settings live in `local.el`, which is ignored by Git.
+
+## What It Does
+
+This repository provides a complete `~/.emacs.d` setup for editing, Org mode,
+LSP-based programming, completion, project navigation, email/news reading,
+media playback, PDF reading, terminal use, and Aider-assisted coding.
 
 ## Directory Layout
 
