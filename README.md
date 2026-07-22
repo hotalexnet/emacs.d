@@ -1,5 +1,108 @@
 # Alex's Emacs Configuration
 
+Personal Emacs configuration for GNU/Linux, focused on Org mode, LSP, mail,
+music, RSS, PDF reading, and AI-assisted coding. The main configuration lives
+in `init.el`; startup optimizations live in `early-init.el`; private machine
+settings should be kept in `local.el`, which is ignored by Git.
+
+## English Quick Start
+
+Clone this repository with submodules:
+
+```sh
+git clone --recurse-submodules <your-repo-url> ~/.emacs.d
+```
+
+If you cloned without submodules:
+
+```sh
+git submodule update --init --recursive
+```
+
+Create your private local configuration:
+
+```sh
+cp ~/.emacs.d/local.example.el ~/.emacs.d/local.el
+```
+
+Then edit `local.el` for your email address, full name, and optional API keys.
+Do not commit the real `local.el`.
+
+Recommended Emacs version: Emacs 30 or newer. This config prefers built-in
+tree-sitter major modes such as `rust-ts-mode`, `go-ts-mode`,
+`typescript-ts-mode`, `tsx-ts-mode`, `lua-ts-mode`, `yaml-ts-mode`, and
+`dockerfile-ts-mode`.
+
+### English Dependency Notes
+
+Emacs packages are installed automatically through `package.el` and
+`use-package`. System programs still need to be installed separately.
+
+Common Arch Linux dependencies:
+
+```sh
+sudo pacman -S ripgrep fd git aspell aspell-en w3m
+sudo pacman -S clang lua-language-server typescript-language-server yaml-language-server dockerfile-language-server
+sudo pacman -S plantuml graphviz
+sudo pacman -S poppler-glib base-devel
+sudo pacman -S mpv yt-dlp
+sudo pacman -S mu isync msmtp w3m
+sudo pacman -S cmake libvterm
+```
+
+Optional language servers and tools:
+
+```sh
+go install github.com/sqls-server/sqls@latest
+go install golang.org/x/tools/gopls@latest
+rustup component add rust-analyzer
+sudo pacman -S pyright
+composer global require phpactor/phpactor
+npm install -g marked
+pipx install aider-chat
+```
+
+External tools expected by this configuration include:
+
+- `clangd` at `/usr/bin/clangd`
+- `lua-language-server` under `/usr/lib/lua-language-server/`
+- `sqls` at `~/go/bin/sqls`
+- `plantuml` at `/usr/bin/plantuml`
+- `aider` at `~/.local/bin/aider`
+- `mpv` and `yt-dlp` for media workflows
+- `mu`, `mbsync`, `msmtp`, and `w3m` for `mu4e`
+
+Private files and generated state are intentionally ignored, including
+`local.el`, `custom.el`, `elpa/`, caches, `recentf`, `org-roam.db`, and native
+compiled tree-sitter grammars.
+
+### English Key Bindings
+
+```text
+F2      Toggle neotree
+C-x g   Magit status
+C-c o a Org Agenda
+C-c l   Store Org link
+C-c n f Find Org-roam node
+C-c n i Insert Org-roam node
+C-c n l Toggle Org-roam buffer
+C-c n c Org-roam capture
+C-c n d Capture today's Org-roam daily
+C-c w   Elfeed
+C-c y   Yeetube search
+C-c a   Aidermacs
+C-c t   vterm
+C-c e   Open init.el
+C-c r   Save and reload init.el
+F11     writeroom-mode
+F6      EMMS pause/resume
+C-F6    EMMS stop
+C-`     EMMS next track
+C-'     EMMS previous track
+```
+
+---
+
 这是我的个人 Emacs 配置，主要面向 Arch Linux / GNU Linux 桌面环境。配置集中在 `init.el`，启动优化在 `early-init.el`，本机私有信息放在不会提交的 `local.el`。
 
 ## 目录结构
