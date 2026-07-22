@@ -51,6 +51,10 @@
 (setq auto-save-file-name-transforms `((".*" ,(expand-file-name "var/auto-save/" user-emacs-directory) t)))
 (setq auto-save-list-file-prefix (expand-file-name "var/auto-save/sessions/" user-emacs-directory))
 (setq create-lockfiles nil)
+
+;; Keep Emacs Custom writes out of init.el.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
 (make-directory (expand-file-name "var/backups/" user-emacs-directory) t)
 (make-directory (expand-file-name "var/auto-save/" user-emacs-directory) t)
 (make-directory (expand-file-name "var/auto-save/sessions/" user-emacs-directory) t)
@@ -562,41 +566,3 @@
 (use-package writeroom-mode
   :bind ("<f11>" . writeroom-mode))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("21d2bf8d4d1df4859ff94422b5e41f6f2eeff14dd12f01428fa3cb4cb50ea0fb"
-     "b7a09eb77a1e9b98cafba8ef1bd58871f91958538f6671b22976ea38c2580755"
-     "5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5"
-     "8c7e832be864674c220f9a9361c851917a93f921fedb7717b1b5ece47690c098"
-     "e4a702e262c3e3501dfe25091621fe12cd63c7845221687e36a79e17cf3a67e0"
-     "d12b1d9b0498280f60e5ec92e5ecec4b5db5370d05e787bc7cc49eae6fb07bc0"
-     "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
-     "dd4582661a1c6b865a33b89312c97a13a3885dc95992e2e5fc57456b4c545176"
-     "56044c5a9cc45b6ec45c0eb28df100d3f0a576f18eef33ff8ff5d32bac2d9700"
-     "d481904809c509641a1a1f1b1eb80b94c58c210145effc2631c1a7f2e4a2fdf4"
-     "720838034f1dd3b3da66f6bd4d053ee67c93a747b219d1c546c41c4e425daf93"
-     "1ad12cda71588cc82e74f1cabeed99705c6a60d23ee1bb355c293ba9c000d4ac"
-     "5a4cdc4365122d1a17a7ad93b6e3370ffe95db87ed17a38a94713f6ffe0d8ceb"
-     "cee5c56dc8b95b345bfe1c88d82d48f89e0f23008b0c2154ef452b2ce348da37"
-     "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
-     default))
- '(package-selected-packages
-   '(aidermacs all-the-icons chess company-dict dashboard dired-sidebar
-               consult doom-modeline doom-themes dracula-theme
-               ef-themes elfeed emmet-mode emms flycheck fold-dwim
-               git-modes gruvbox-theme highlight-indent-guides htmlize
-               keycast lsp-treemacs lsp-ui magit markdown-preview-mode
-               neotree nord-theme nov orderless org-bullets
-               org-journal org-modern org-roam org-superstar origami
-               pdf-tools php-mode vertico vterm web-mode
-               writeroom-mode yeetube)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

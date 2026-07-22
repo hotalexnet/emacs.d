@@ -12,6 +12,7 @@
 ├── dict/                # 本地词典文件
 ├── emacs-chess-cn/      # 中国象棋扩展
 ├── .gitignore           # 忽略缓存、数据库、私有配置和编译产物
+├── local.example.el     # 私有配置模板
 └── local.el             # 本机私有配置，不提交
 ```
 
@@ -36,7 +37,13 @@
 克隆到 Emacs 配置目录：
 
 ```sh
-git clone <your-repo-url> ~/.emacs.d
+git clone --recurse-submodules <your-repo-url> ~/.emacs.d
+```
+
+如果已经普通克隆，补拉子模块：
+
+```sh
+git submodule update --init --recursive
 ```
 
 首次启动 Emacs 时，配置会自动：
@@ -280,13 +287,13 @@ pipx install aider-chat
 
 `local.el` 用来存放不适合公开提交的信息，例如邮箱、姓名、API key。它已被 `.gitignore` 忽略。
 
-创建文件：
+从模板复制：
 
 ```sh
-nano ~/.emacs.d/local.el
+cp ~/.emacs.d/local.example.el ~/.emacs.d/local.el
 ```
 
-示例：
+然后编辑 `local.el`。模板内容：
 
 ```elisp
 ;;; local.el --- Private local Emacs settings -*- lexical-binding: t; -*-
